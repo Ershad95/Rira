@@ -1,0 +1,50 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Rira.Users.GrpcServer.Protos";
+
+
+service UserService {
+	rpc GetAllAsync(Empty) returns (UsersReply);
+	rpc GetByUserIdAsync(UserIdRequest) returns (UserReply);
+	rpc GetByNationalCodeAsync(UserNationalCodeRequest) returns (UserReply);
+
+    rpc DeleteAsync(UserIdRequest) returns (Empty);
+	rpc UpdateAsync(UserUpdateRequest) returns (Empty);
+    rpc RegisterAsync(UserRequest) returns (Empty);
+}
+
+message UserNationalCodeRequest{
+	string NationalCode=1;
+}
+message UserIdRequest {
+	int64 Id = 1;
+}
+message UsersReply{
+	repeated UserReply Items = 1;
+}
+
+message UserReply {
+	int64 Id = 1;
+	string FirstName = 2;
+	string LastName = 3;
+	string NationalCode = 4;
+	google.protobuf.Timestamp BirthDate=5;
+}
+
+
+message UserRequest {
+	string FirstName = 1;
+	string LastName = 2;
+	string NationalCode = 3;
+	google.protobuf.Timestamp BirthDate=4;
+}
+
+message UserUpdateRequest {
+	UserRequest UserRequest = 1;
+	int64 UserId = 4;
+}
+message Empty
+{
+
+}
